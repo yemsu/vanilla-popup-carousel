@@ -4,7 +4,7 @@ const path = require('path')
 
 module.exports = {
   entry: {
-    app: "./src/main.ts",
+    app: "./src/main.js",
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -27,13 +27,6 @@ module.exports = {
         use: ["babel-loader"]
       },
       {
-        test: /\.ts$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "ts-loader",
-        }
-      },
-      {
         test: /\.(png|jpe?g|gif|webp)$/,
         use: "file-loader",
       }
@@ -41,7 +34,7 @@ module.exports = {
   },
   resolve: {
     modules: [path.join(__dirname, "src"), "node_modules"],
-    extensions: [".ts", ".js"],
+    extensions: [".js"],
   },
   // 번들링 후 결과물의 처리 방식 등 다양한 플러그인들을 설정
   plugins: [

@@ -1,0 +1,97 @@
+$gray-color-1: #666;
+$colors-black: #05141f;
+$colors-black-1: #37434b;
+
+/* black 70% */
+$colors-black-2: #697278;
+
+/* black 60% */
+$colors-black-3: #9fa5a9;
+
+/* black 38% */
+$colors-white: #fff;
+$colors-grey: #4e4e4e;
+// $colors-grey-1: #9fa1a2;
+
+/* grey 70% */
+$colors-grey-1: #b4b9bc;
+
+/* grey 50% */
+$colors-grey-2: #d2d2d2;
+$colors-grey-3: #828a8f;
+
+/* grey 25% */
+$colors-grey-4: #dbdbdb;
+$colors-grey-5: #dadbdc;
+
+/* grey 20% */
+$colors-red: #de0017;
+$colors-yellow: #f3c300;
+$colors-green: #5d7d2b;
+$colors-bg: #f0f1f1;
+
+/* black 6% */
+$colors-text-bg: #f8f8f8;
+
+/* black 3% */
+
+///********************///
+///*    Break Points  *///
+///********************///
+$screen-xsm: 375px;
+$screen-sm: 768px; // mobile
+$screen-md: 1024px; // tablet
+$screen-lg: 1440px;
+$screen-xlg: 1600px;
+$screen-xxlg: 1920px;
+$screen-xxxlg: 2560px;
+///********************///
+///*     Max Width    *///
+///********************///
+$grid-full: 1920px;
+$grid-max: 1344px;
+///********************///
+///*    Transition    *///
+///********************///
+$trans-function: cubic-bezier(0.65, 0.00, 0.35, 1);
+///********************///
+///*       Fonts      *///
+///********************///
+$font-family: "Kia Signature Regular", Arial, sans-serif, Hevetica;;
+$kia-font-B: "Kia Signature Bold", Arial, sans-serif, Hevetica;;
+$kia-font-R: "Kia Signature Regular", Arial, sans-serif, Hevetica;;
+$kia-font-L: "Kia Signature Light", Arial, sans-serif, Hevetica;;
+$kia-font-fixB: "Kia Signature Fix Bold", Arial, sans-serif, Hevetica;;
+$kia-font-fixR: "Kia Signature Fix Regular", Arial, sans-serif, Hevetica;;
+$kia-font-fixL: "Kia Signature Fix Light", Arial, sans-serif, Hevetica;;
+$base-font-size: 16px;
+$base-spacing: 16px;
+$font-height: 1.75; 
+
+///********************///
+///*   color setting  *///
+///*   new style      *///
+///********************///
+$midnight-black-100:#05141f;
+//투명도 적용 op + 숫자
+$midnight-black-3:#f8f8f8;
+$midnight-black-6:#f0f1f1;
+$midnight-black-60:#697278;
+$midnight-black-70:#37434b;
+
+$polar-white:#fff;
+$polar-white-80:rgba(255, 255, 255, 0.8);
+$polar-white-5:rgba(255, 255, 255, 0.05);
+
+$city-grey-50:#9ea1a2;
+$city-grey-20:#dadbdc;
+$city-grey-25:#d2d2d2;
+
+$se-yellow:#f3c300;
+$se-forest-green:#5d7d2b;
+$se-live-red:#ea0029;
+
+//푸터
+$footer-back:#010e18;
+$footer-txt:#79838b;
+
