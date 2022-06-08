@@ -1,0 +1,23 @@
+.modal-carousel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  padding: 40px 20px;
+  background-color: #fff;
+  transform: translateX(100%);
+  &.active {
+    transform: translateX(0);
+  }
+  .button-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+  }
+  .viewport {
+    width: 500px;
+  }
+}

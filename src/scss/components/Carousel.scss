@@ -55,10 +55,13 @@ button {
       justify-content: center;
       gap: 10px;
       .indicator {
-        padding: 10px;
         background-color: rgba(0, 0, 0, 0.7);
         button {
+          padding: 10px;
           color: #fff;
+        }
+        &:not(.active) {
+          opacity: 0.6;
         }
       }
     }

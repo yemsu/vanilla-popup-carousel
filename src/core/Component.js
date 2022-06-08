@@ -3,16 +3,18 @@ export default class Component {
   $state;
   $props;
   $el;
-  $template;
-  constructor ($target, $props) {
+  constructor ($target, $props = {}, autoMounted = true) {
     this.$target = $target
     this.$props = $props
     this.$el = {}
+    this.autoMounted = autoMounted
 
-    this.setup()
+    this.init()
+  }
+  async init() {
+    await this.setup()
     this.render()
-    this.setNodeSelector()
-    this.mounted()
+    this.autoMounted && this.mounted()
   }
   setup () {}
   setDefaultProps(defaultProps) {
@@ -21,12 +23,10 @@ export default class Component {
       this.$props[key] = this.$props[key] ?? defaultProps[key]
     })
   }
-  template () {}
-  setNodeSelector() {}
+  template () { return '' }
   render () {
-    console.log('render')
-    this.$template = this.template()
-    this.$target.appendChild(this.$template)
+    console.log('render', this,this.template())
+    this.template() && this.$target.appendChild(this.template())
   }
   mounted () {}
   setEvent (target, eventName, callback) {

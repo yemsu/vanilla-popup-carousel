@@ -4,6 +4,6 @@ const $axios = axios.create({
   baseURL: 'http://localhost:4000/'
 })
 
-export const getPosts1 = () => {
-  return $axios.get('posts1')
+export const getPosts = (path) => {
+  return $axios.get(path)
 }
