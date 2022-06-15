@@ -92,41 +92,43 @@ export default class Carousel extends Component {
     `
     return carousel
   }
-  mounted() { 
+ mounted() { 
     this.checkEndImageLoad()
-    .then(() => this.setStateViewportWidth())
-    .then(() => this.setStateSlideWidth())
-    .then(() => this.setDomSlideWidth())
+    .then(() => this.widthStatesHandler())
 
-    this.resizeHandler(() => { 
-      this.setStateViewportWidth()
-      .then(() => this.setStateSlideWidth())
-      .then(() => this.setDomSlideWidth())
-    })
+    this.resizeHandler(() => this.widthStatesHandler())
 
-    // console.log('this.$target', this, this.$target)
-    this.setEvent(this.$target, 'click', (e) => { 
-      this.nextActiveIndexByClickElem(e)
-      .then(nextActiveIndex => this.setStateActiveIndex(nextActiveIndex))
-      .then(() => this.setDomSliding())
-      .then(() => this.setDomActive())
+    this.setEvent(this.$target, 'click', async (e) => { 
+      const nextActiveIndex = await this.nextActiveIndexByClickElem(e)
+      this.domHandler(nextActiveIndex)
     })
   }
   resizeHandler(callback) { 
     let checkResizeEnd
-    window.addEventListener('resize', () => { 
+    window.addEventListener('resize', () => {
       clearTimeout(checkResizeEnd)
       checkResizeEnd = setTimeout(() => callback(), 100)
     })
   }
-
+  widthStatesHandler() {
+    this.setStateViewportWidth()
+    this.setStateSlideWidth()
+    this.setDomSlideWidth()
+  }
+  domHandler(nextActiveIndex) {
+    const { activeIndex } = this.$state
+    if(activeIndex === nextActiveIndex) return
+    this.setStateActiveIndex(nextActiveIndex)
+    this.setDomSliding()
+    this.setDomActive()
+  }
   async checkEndImageLoad() { 
     const allImg = this.$target.querySelectorAll('.slide img')
     if(allImg.length < 1) return true
     const lastImg = allImg[allImg.length - 1]
     return checkLoad(lastImg)
   }
-  async setStateViewportWidth() { 
+  setStateViewportWidth() { 
     const viewportWidth = this.$target.querySelector('.viewport').offsetWidth
     // console.log('setStateViewportWidth', viewportWidth)
     this.setState({ viewportWidth })
@@ -138,33 +140,26 @@ export default class Carousel extends Component {
     const slideWidth = (viewportWidth / slideNumPerView).toFixed(2)
     this.setState({ slideWidth })
   }
-  async setStateActiveIndex(nextActiveIndex) { 
-    const fn = (instance) => { 
-      const { lastIndex, activeIndex } = instance.$state
-      if(activeIndex === nextActiveIndex) return false
-      const checkActiveIndex = nextActiveIndex < 0
-        ? lastIndex
-        : nextActiveIndex > lastIndex
-          ? 0
-          : nextActiveIndex
-      instance.setState({ activeIndex: checkActiveIndex })
-    }
-    fn(this)
-    
-    const { twin } = this.$props
-    twin && fn(twin)
+  setStateActiveIndex(nextActiveIndex) { 
+    console.log('setStateActiveIndex', nextActiveIndex)
+    const { lastIndex } = this.$state
+    const checkActiveIndex = nextActiveIndex < 0
+      ? lastIndex
+      : nextActiveIndex > lastIndex
+        ? 0
+        : nextActiveIndex
+    this.setState({ activeIndex: checkActiveIndex })
   }
   async nextActiveIndexByClickElem(e) { 
     const { activeIndex } = this.$state
     const button = e.target.closest('button')
-    if(!button) return Promise.reject('not a button')
+    if(!button) return false
     const dataAttr = button.dataset
     const nextActiveIndex = dataAttr.arrow
       ? activeIndex + dataAttr.arrow * 1
       : dataAttr.index 
         ? dataAttr.index * 1
-        : Promise.reject(new Error('ERROR: click element data attribute - dataAttr: ', dataAttr))
-    if(activeIndex === nextActiveIndex) return Promise.reject('same Index')
+        : console.error('ERROR: click element data attribute - dataAttr: ', dataAttr)
     return nextActiveIndex
   }
   setDomSlideWidth() { 
@@ -173,28 +168,17 @@ export default class Carousel extends Component {
     slides.forEach(slide => slide.style.width = `${ slideWidth }px`)
   }
   setDomSliding() { 
-    const fn = (instance) => { 
-      const { slideNumPerSliding } = instance.$props
-      const { activeIndex, slideWidth } = instance.$state
-      const slidingArea = instance.$target.querySelector('.area-sliding')
-      const translateX = (slideWidth * slideNumPerSliding) * activeIndex
-      slidingArea.style.transform = `translateX(-${ translateX }px)`
-    }
-    fn(this)
-
-    const { twin } = this.$props
-    twin && fn(twin)
+    const { slideNumPerSliding } = this.$props
+    const { activeIndex, slideWidth } = this.$state
+    const slidingArea = this.$target.querySelector('.area-sliding')
+    const translateX = (slideWidth * slideNumPerSliding) * activeIndex
+    slidingArea.style.transform = `translateX(-${ translateX }px)`
   }
   setDomActive() { 
-    const fn = (instance) => { 
-      const { activeIndex } = instance.$state
-      // console.log('setdomactive', activeIndex)
-      domSetActiveIndex(instance.$target, '.slide:not(.cloned)', activeIndex)
-      domSetActiveIndex(instance.$target, '.indicator', activeIndex)
-    }
-    fn(this)
-    
-    const { twin } = this.$props
-    twin && fn(twin)
+    const { activeIndex } = this.$state
+    // console.log('setdomactive', activeIndex)
+    domSetActiveIndex(this.$target, '.slide:not(.cloned)', activeIndex)
+    domSetActiveIndex(this.$target, '.indicator', activeIndex)
+    this.$target.dataset.index = activeIndex
   }
  }
