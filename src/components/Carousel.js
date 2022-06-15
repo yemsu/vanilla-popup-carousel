@@ -100,7 +100,7 @@ export default class Carousel extends Component {
 
     this.setEvent(this.$target, 'click', async (e) => { 
       const nextActiveIndex = await this.nextActiveIndexByClickElem(e)
-      this.domHandler(nextActiveIndex)
+      nextActiveIndex && this.domHandler(nextActiveIndex)
     })
   }
   resizeHandler(callback) { 
@@ -141,7 +141,7 @@ export default class Carousel extends Component {
     const slideWidth = (viewportWidth / slideNumPerView).toFixed(2)
     this.setState({ slideWidth })
   }
-  setStateActiveIndex(nextActiveIndex) { 
+  setStateActiveIndex(nextActiveIndex) {  
     console.log('setStateActiveIndex', nextActiveIndex)
     const { lastIndex } = this.$state
     const checkActiveIndex = nextActiveIndex < 0
