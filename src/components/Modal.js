@@ -31,18 +31,24 @@ export default class Model extends Component {
     const closeButton = this.$target.querySelector('[data-modal-close]')
     const toggleButtons = [...openButtons, closeButton]
     toggleButtons.forEach(item => {
-      this.setEvent(item, 'click', () => this.toggleActive())
+      const isCloseButton = item.classList.value.includes('close')
+      const openPopup = isCloseButton ? false : true
+      this.setEvent(item, 'click', () => this.toggleActive(openPopup))
     })
   }
-  toggleActive() {
+  toggleActive(isOpen) {
     const { isActive } = this.$state
-    if(!isActive) {
+    const checkOpen = isOpen ?? !isActive
+    if(checkOpen) {
       this.$target.classList.add('active')
       this.setState({ isActive: true })
+      this.afterActive()
     } else {
       this.$target.classList.remove('active')
       this.setState({ isActive: false })
     }
-    console.log('toggleActive')
+  }
+  afterActive() {
+
   }
 }
