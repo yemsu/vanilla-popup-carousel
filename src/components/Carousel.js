@@ -94,9 +94,9 @@ export default class Carousel extends Component {
   }
  mounted() { 
     this.checkEndImageLoad()
-    .then(() => this.widthStatesHandler())
+    .then(() => this.resizeHandler())
 
-    this.resizeHandler(() => this.widthStatesHandler())
+    this.resizeHandler(() => this.resizeHandler())
 
     this.setEvent(this.$target, 'click', async (e) => { 
       const nextActiveIndex = await this.nextActiveIndexByClickElem(e)
@@ -110,10 +110,11 @@ export default class Carousel extends Component {
       checkResizeEnd = setTimeout(() => callback(), 100)
     })
   }
-  widthStatesHandler() {
+  resizeHandler() {
     this.setStateViewportWidth()
     this.setStateSlideWidth()
     this.setDomSlideWidth()
+    this.setDomSliding()
   }
   domHandler(nextActiveIndex) {
     const { activeIndex } = this.$state
