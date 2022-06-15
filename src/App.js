@@ -4,8 +4,8 @@ import { getPosts } from '@/utils/Http'
 
 class App extends Component{
   async setup() {
-    const { data: dataPosts1  } = await getPosts('posts1')
-    const { data: dataPosts2  } = await getPosts('posts2')
+    const { data: dataPosts1 } = await getPosts('posts1')
+    const { data: dataPosts2 } = await getPosts('posts2')
     this.$state = {
       dataPosts1,
       dataPosts2,

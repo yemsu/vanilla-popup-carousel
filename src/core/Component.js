@@ -2,11 +2,9 @@ export default class Component {
   $target;
   $state;
   $props;
-  $el;
   constructor ($target, $props = {}, autoMounted = true) {
     this.$target = $target
     this.$props = $props
-    this.$el = {}
     this.autoMounted = autoMounted
 
     this.init()
@@ -25,7 +23,7 @@ export default class Component {
   }
   template () { return '' }
   render () {
-    console.log('render', this,this.template())
+    // console.log('render', this,this.template())
     this.template() && this.$target.appendChild(this.template())
   }
   mounted () {}
