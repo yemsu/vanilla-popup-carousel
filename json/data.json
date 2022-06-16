@@ -7,7 +7,7 @@
       "img": "./img/temp_1_1.png",
       "modal": 
         {
-          "tit": "슈퍼비전 클러스터",
+          "tit": "터레인 모드 - 슈퍼비전 클러스터",
           "type": "image",
           "pcLink": "./img/temp_3_1.webp",
           "alt": "이미지 alt값",
@@ -21,7 +21,7 @@
       "img" : "./img/temp_1_2.png",
       "modal": 
         {
-          "tit": "후측방 모니터",
+          "tit": "원격 스마트 보 - 후측방 모니터",
           "type": "image",
           "pcLink": "./img/temp_3_2.webp",
           "alt": "이미지 alt값",
@@ -35,7 +35,7 @@
       "img" : "./img/temp_1_3.png",
       "modal": 
         {
-          "tit": "슈퍼비전 클러스터",
+          "tit": "전자식 변속 다이 - 슈퍼비전 클러스터",
           "type": "image",
           "pcLink": "./img/temp_3_3.webp",
           "alt": "이미지 alt값",
@@ -49,7 +49,7 @@
       "img" : "./img/temp_1_4.png",
       "modal": 
         {
-          "tit": "후측방 모니터",
+          "tit": "커넥티비 - 후측방 모니터",
           "type": "image",
           "pcLink": "./img/temp_3_4.webp",
           "alt": "이미지 alt값",
@@ -66,7 +66,7 @@
       "modal": 
         {
           "modalId": "0001",
-          "tit": "슈퍼비전 클러스터",
+          "tit": "인터렉티 - 슈퍼비전 클러스터",
           "type": "image",
           "pcLink": "./img/temp_3_1.webp",
           "alt": "이미지 alt값",
@@ -81,7 +81,7 @@
       "modal": 
         {
           "modalId": "0001",
-          "tit": "슈퍼비전 클러스터",
+          "tit": "터레인 모드 - 슈퍼비전 클러스터",
           "type": "image",
           "pcLink": "./img/temp_3_2.webp",
           "alt": "이미지 alt값",
@@ -96,7 +96,7 @@
       "modal": 
         {
           "modalId": "0001",
-          "tit": "슈퍼비전 클러스터",
+          "tit": "원격 스마트 보 - 슈퍼비전 클러스터",
           "type": "image",
           "pcLink": "./img/temp_3_3.webp",
           "alt": "이미지 alt값",
@@ -111,11 +111,26 @@
       "modal": 
         {
           "modalId": "0001",
-          "tit": "슈퍼비전 클러스터",
+          "tit": "전자식 변속 다이 - 슈퍼비전 클러스터",
           "type": "image",
           "pcLink": "./img/temp_3_4.webp",
           "alt": "이미지 alt값",
           "script": "4444하이포지션된 고해상도 TFT LCD를 적용하여 시인성을 향상시키고, 드라이브 모드에 따른 자동 테마 변환 기능을 제공합니다. 하이포지션된 고해상도 TFT LCD를 적용하여 시인성을 향상시키고, 드라이브 모드에 따른 자동 테마 변환 기능을 제공합니다. 하이포지션된 고해상도 TFT LCD를 적용하여 시인성을 향상시키고, 드라이브 모드에 따른 자동 테마 변환 기능을 제공합니다. 하이포지션된 고해상도 TFT LCD를 적용하여 시인성을 향상시키고, 드라이브 모드에 따른 자동 테마 변환 기능을 제공합니다."
+        }
+    },
+    {
+      "postId": "0005",
+      "tit": "무빙 라이트 패턴",
+      "description": "주차, 주행 시에는 도어 내측에 숨겨져 있다가 승하차 시 자동으로 팝업되는 오토 플러시 도어 핸들 적용으로 사용 편의성을 증대하고 심리스한 외관을 구현하였습니다.",
+      "img" : "./img/temp_2_5.png",
+      "modal": 
+        {
+          "modalId": "0001",
+          "tit": "무빙 라이트 패턴 - 바디 실루엣 램프",
+          "type": "image",
+          "pcLink": "./img/temp_3_5.webp",
+          "alt": "이미지 alt값",
+          "script": "555 바디 실루엣을 비춰주는 램프를 적용하여 안전한 탑승을 돕고 EV6의 독창적인 숄더 볼륨을 강조하였습니다."
         }
     }
   ],
