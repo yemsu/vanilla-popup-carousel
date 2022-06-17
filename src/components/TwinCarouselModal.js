@@ -16,7 +16,7 @@ export default class TwinCarouselModal extends Component {
     return TwinCarouselModal
   }
   async mounted() {
-    const {dataList} = this.$props
+    const { dataList } = this.$props
     // Main Carousel Instance
     const targetCarouselPosts1 = newElement('div', 'carousel-main')
     this.$target.appendChild(targetCarouselPosts1)
@@ -29,58 +29,66 @@ export default class TwinCarouselModal extends Component {
       carouselMain
     })
     // slide click => popup render
-    const slideButtons = carouselMain.$target.querySelectorAll('.slide > button')
-    slideButtons.forEach(button => {
+    const modalOpenButtons = carouselMain.$target.querySelectorAll('.slide > button')
+    modalOpenButtons.forEach(button => {
       this.setEvent(button, 'click', async () => {
         const { isPopupRendered } = this.$state
-        if(isPopupRendered) return
+        if(isPopupRendered) return false
         this.setState({ isPopupRendered: true })
-        // Modal Carousel Template
-        this.returnTemplateModal(slideButtons, dataList)
+        this.setStateSubCarouselModal(modalOpenButtons, dataList)
+        .then(() => this.setEventSubCarouselModal())
       })
     })
 
-    // observer
-    mutationObserver(carouselMain.$target, (mutation) => {
-      const { modal } = this.$state
-      if(!modal.$state.isActive) return 
-      const { attributeName } = mutation
-      if(attributeName === "data-index") {
-        const { carouselSub } = this.$state
-        carouselSub.domHandler(carouselMain.$state.activeIndex)
-      }
-    })
   }
-  async returnTemplateModal(openButtons, dataList) {
-    // Modal Instance
+  async setStateSubCarouselModal(openButtons, dataList) {
+    // Make Instance
+      // - modal
     const targetPostModal = newElement('div', 'modal-carousel')
     this.$target.appendChild(targetPostModal)
-    const modal = await new Modal(targetPostModal, { openButtons })    
-    // Sub Carousel Instance
-    const setupModalCarouselData = (dataHasModal) => {
-      return dataHasModal.map(({ modal }) => ({
-        tit: modal.tit,
-        img: modal.pcLink,
-        alt: modal.alt,
-        description: modal.script,
-      }))
-    }    
-    const carouselSub = new Carousel(modal.$contentsArea, {
-      dataList: setupModalCarouselData(dataList),
+    const modal = await new Modal(targetPostModal, { openButtons })   
+      // - sub carousel
+    const carouselSub = await new Carousel(modal.$contentsArea, {
+      dataList: this.setupModalCarouselData(dataList),
     })
-    // Modal Open
-    modal.toggleActive()
-    modal.afterActive = () => {
-      const { carouselMain } = this.$state
-      const mainActiveIndex = carouselMain.$state.activeIndex
-      const checkActiveIndex = carouselSub.$state.activeIndex !== mainActiveIndex
-      
-      checkActiveIndex && carouselSub.domHandler(mainActiveIndex)
-    }
     // Set State
     this.setState({
       carouselSub,
       modal
+    })
+  }
+  setupModalCarouselData(dataHasModal) {
+    return dataHasModal.map(({ modal }) => ({
+      tit: modal.tit,
+      img: modal.pcLink,
+      alt: modal.alt,
+      description: modal.script,
+    }))
+  }    
+  setEventSubCarouselModal() {
+    const { carouselMain, carouselSub, modal } = this.$state
+    // modal 오픈할때 sub carousel - main carousel 인덱스 동기화
+    modal.afterActive = () => this.synchronizeIndex(carouselMain, carouselSub)
+    // main - sub carousel 연동
+    this.twinPlayCarousel(carouselMain, carouselSub)
+    // open modal
+    modal.toggleActive()
+  }
+  synchronizeIndex(carouselMain, carouselSub) {
+    const { activeIndex: mainActiveIndex } = carouselMain.$state
+    const { activeIndex: subActiveIndex } = carouselSub.$state
+    subActiveIndex !== mainActiveIndex
+    && carouselSub.runActiveIndexChange(mainActiveIndex)
+  }
+  twinPlayCarousel(carouselMain, carouselSub) {
+    mutationObserver(carouselMain.$target, (mutation) => {
+      const { isActive } = this.$state.modal.$state
+      const { activeIndex } = carouselMain.$state
+      if(!isActive) return 
+      const { attributeName } = mutation
+      if(attributeName === "data-index") {
+        carouselSub.runActiveIndexChange(activeIndex)
+      }
     })
   }
 }

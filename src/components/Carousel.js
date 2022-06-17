@@ -94,13 +94,18 @@ export default class Carousel extends Component {
   }
  mounted() { 
     this.checkEndImageLoad()
-    .then(() => this.resizeHandler())
+    .then(isLastImageOnLoad => isLastImageOnLoad && this.runResizeEvents())
+    .catch(err => console.error(`checkEndImageLoad(): ${err}`))
 
-    this.resizeHandler(() => this.resizeHandler())
+    this.resizeHandler(() => this.runResizeEvents())
 
     this.setEvent(this.$target, 'click', async (e) => { 
-      const nextActiveIndex = await this.nextActiveIndexByClickElem(e)
-      nextActiveIndex && this.domHandler(nextActiveIndex)
+      const button = e.target.closest('button')
+      if(!button) return
+      const dataset = button.dataset
+
+      const nextActiveIndex = await this.getNextActiveIndex(dataset)
+      nextActiveIndex !== false && this.runActiveIndexChange(nextActiveIndex)
     })
   }
   resizeHandler(callback) { 
@@ -110,13 +115,13 @@ export default class Carousel extends Component {
       checkResizeEnd = setTimeout(() => callback(), 100)
     })
   }
-  resizeHandler() {
+  runResizeEvents() {
     this.setStateViewportWidth()
     this.setStateSlideWidth()
     this.setDomSlideWidth()
     this.setDomSliding()
   }
-  domHandler(nextActiveIndex) {
+  runActiveIndexChange(nextActiveIndex) {
     const { activeIndex } = this.$state
     if(activeIndex === nextActiveIndex) return
     this.setStateActiveIndex(nextActiveIndex)
@@ -142,7 +147,7 @@ export default class Carousel extends Component {
     this.setState({ slideWidth })
   }
   setStateActiveIndex(nextActiveIndex) {  
-    console.log('setStateActiveIndex', nextActiveIndex)
+    // console.log('setStateActiveIndex', nextActiveIndex)
     const { lastIndex } = this.$state
     const checkActiveIndex = nextActiveIndex < 0
       ? lastIndex
@@ -151,16 +156,15 @@ export default class Carousel extends Component {
         : nextActiveIndex
     this.setState({ activeIndex: checkActiveIndex })
   }
-  async nextActiveIndexByClickElem(e) { 
-    const { activeIndex } = this.$state
-    const button = e.target.closest('button')
-    if(!button) return false
-    const dataAttr = button.dataset
-    const nextActiveIndex = dataAttr.arrow
-      ? activeIndex + dataAttr.arrow * 1
-      : dataAttr.index 
-        ? dataAttr.index * 1
-        : console.error('ERROR: click element data attribute - dataAttr: ', dataAttr)
+  async getNextActiveIndex(dataset) { 
+    const { activeIndex } = this.$state    
+    const { index, arrow } = dataset
+    const nextActiveIndex = arrow
+      ? activeIndex + arrow * 1
+      : index 
+        ? index * 1
+        : console.error('ERROR: click element data attribute - dataset: ', dataset)
+        
     return nextActiveIndex
   }
   setDomSlideWidth() { 
@@ -177,7 +181,6 @@ export default class Carousel extends Component {
   }
   setDomActive() { 
     const { activeIndex } = this.$state
-    // console.log('setdomactive', activeIndex)
     domSetActiveIndex(this.$target, '.slide:not(.cloned)', activeIndex)
     domSetActiveIndex(this.$target, '.indicator', activeIndex)
     this.$target.dataset.index = activeIndex
