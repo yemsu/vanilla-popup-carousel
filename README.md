@@ -1,4 +1,4 @@
-# webpack_typescript
+# vanilla-popup-carousel
 npm run dev
 
 ## json-server 가동
